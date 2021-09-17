@@ -410,7 +410,13 @@ function draw() {
       fill(150);
     }
     rect(300,300,700,200);
-    textSize(100);
+    fill(255);
+    rect(800,700,400,150);
+    fill(0);
+    stroke(0);
+    text(toencrypt,300,375);
+    textSize(50);
+    text('Download Txt',800,750);
     
     
   } else if (display == 'decryption'){
@@ -778,7 +784,7 @@ function draw() {
       fill(255,0,0);
       rect(275,275,200,100);
       fill(0);
-      text('       OFF',100,350);
+      text('         OFF',100,350);
     }
     fill(255);
     
@@ -942,9 +948,27 @@ function draw() {
       }
     }
   } else if (display == 'settings'){
+    // Colors: Spectrum (Default), spectrum light, spectrum bright, red-green, red-blue, green-blue, high-contrast, black-white, default dark, dark blue, default light
     background(backgroundcolor[0],backgroundcolor[1],backgroundcolor[2]);
+    stroke(backgroundcolor[0],backgroundcolor[1],backgroundcolor[2]);
     fill(textcolor[0],textcolor[1],textcolor[2]);
     text('Settings',900,100);
+    textSize(40);
+    text('Spectrum (Default)',240,215);
+    text('Spectrum light',310,275);
+    text('Spectrum bright',310,335);
+    text('Red Green',310,395);
+    text('Green Blue',310,455);
+    text('Blue Red',310,515);
+    text('High contrast',310,575);
+    text('Black White',310,635);
+    text('Default Dark',310,695);
+    text('Dark Blue',310,755);
+    text('Default light',310,815);
+    
+    text('Backend',900,850);
+    
+    
     if (mouseX >= 50 && mouseX <= 250 && mouseY >= 50 && mouseY <= 150){
       fill(200,0,0);
     } else {
@@ -976,7 +1000,7 @@ function draw() {
       ccstart = 255;
     } 
     xpos = 100;
-    cc = ccs;
+    cc = ccs-150;
     while (xpos <= 300){
         red = (255-Math.abs(255-cc));
         green = (255-Math.abs(510-cc));
@@ -1038,22 +1062,68 @@ function draw() {
       xpos += 1;
     }
     ccstart -= 1;
+    xpos = 100;
+    cc1 = 150;
+    while (xpos <= 300){
+      red = (255-Math.abs(255-cc1));
+      green = (255-Math.abs(510-cc1));
+      blue = (255-Math.abs(765-cc1));
+      if (cc1 >= 765){
+        red = (255-Math.abs(1020-cc1));
+      }
+      stroke(red,green,blue);
+      fill(red,green,blue);
+      rect(xpos,355,2,60);
+      cc1 += 4;
+      xpos += 2;
+    }
+    
+    xpos = 100;
+    cc1 = 450;
+    while (xpos <= 300){
+      red = (255-Math.abs(255-cc1));
+      green = (255-Math.abs(510-cc1));
+      blue = (255-Math.abs(765-cc1));
+      if (cc1 >= 765){
+        red = (255-Math.abs(1020-cc1));
+      }
+      stroke(red,green,blue);
+      fill(red,green,blue);
+      rect(xpos,415,2,60);
+      cc1 += 4;
+      xpos += 2;
+    }
+    
+    xpos = 100;
+    cc1 = 700;
+    while (xpos <= 300){
+      red = (255-Math.abs(255-cc1));
+      green = (255-Math.abs(510-cc1));
+      blue = (255-Math.abs(765-cc1));
+      if (cc1 >= 765){
+        red = (255-Math.abs(1020-cc1));
+      }
+      stroke(red,green,blue);
+      fill(red,green,blue);
+      rect(xpos,475,2,60);
+      cc1 += 4;
+      xpos += 2;
+    }
+    
     if (ccstart <= -510){
       ccstart = 255;
     } 
-    rect(100,415,200,60);
-    rect(100,475,200,60);
-    rect(100,535,200,60);
-    rect(100,595,200,60);
-    rect(100,655,200,60);
-    rect(100,715,200,60);
+    //rect(100,415,200,60);
+    //rect(100,475,200,60);
+    //rect(100,535,200,60);
+    //rect(100,595,200,60);
+    //rect(100,655,200,60);
+    //rect(100,715,200,60);
     
     fill(textcolor[0],textcolor[1],textcolor[2]);
     // Colors: Spectrum (Default), spectrum light, spectrum bright, red-green, red-blue, green-blue, high-contrast, black-white, default dark, dark blue, default light
     fill(0);
-    textSize(40);
-    text('change color scheme',290,230);
-    text(colorscheme,240,500);
+    text(colorscheme,600 ,500);
     
     textSize(60);
     fill(255);
@@ -1088,7 +1158,7 @@ function keyTyped(){
     secq2 += key;
   } else if (logosize < 5250){
     hovered = true;
-  } else if (display == 'encryption' && accountclick == 'encrypting'){
+  } else if (display == 'encryption' && encryptionclick == 'encrypting'){
     toencrypt += key;
   }
   typed += key; 
@@ -1136,6 +1206,7 @@ function mousePressed(){
   if (display == 'main menu') {
   if (mouseX >= 200 && mouseX <= 900 && mouseY >= 200 && mouseY <= 450){
       display = 'encryption';
+      encryptionclick = 'encrypting';
     }
     rect(200,200,700,250);
     if (mouseX >= 1100 && mouseX <= 1800 && mouseY >= 200 && mouseY <= 450){
@@ -1267,6 +1338,12 @@ function mousePressed(){
     secq2 = '';
     display = 'main menu';
     localStorage.setItem('localstatus','signed out' );
+  } else if (display == 'encryption'){
+    if (mouseX >= 800 && mouseX <= 1200 && mouseY >= 700 && mouseY <= 850){
+      let writer = createWriter('encrypted_text.rtf');
+      writer.write(toencrypt);
+      writer.close();
+    }
   }
   accountanimx = 1000;
   accountanimy = 750;
